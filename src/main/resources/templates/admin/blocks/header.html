@@ -1,0 +1,30 @@
+<head th:fragment="adminHead (title)">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Dashboard" />
+
+    <!-- Favicon -->
+    <!-- Map CSS -->
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" />
+
+    <!-- Libs CSS -->
+    <link rel="stylesheet" th:href="@{/admin/assets/css/libs.bundle.css}" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" th:href="@{/admin/assets/css/theme.bundle.css}" />
+    <link rel="stylesheet" th:href="@{/admin/assets/css/main.css}" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <!-- Title -->
+    <title th:text="${title}" />
+
+    <script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+
+
+    <script th:src="@{/admin/src/js/dropzone.js}"></script>
+</head>

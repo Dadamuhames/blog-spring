@@ -1,0 +1,47 @@
+<div class="card-footer d-flex justify-content-between" th:fragment="pagination">
+  <!-- Pagination (prev) -->
+  <ul class="pagination pagination-tabs card-pagination">
+    <li class="page-item">
+      <a th:if="${page > 0}" class="page-link ps-0 pe-4 border-end" th:href="@{${requestUrl}(pageSize=${size}, page=${page - 1})}">
+        <i class="fe fe-arrow-left me-1"></i> Пред.
+      </a>
+
+      <a th:if="${page <= 0}" class="page-link ps-0 pe-4 border-end" href="#">
+        <i class="fe fe-arrow-left me-1"></i> Пред.
+      </a>
+    </li>
+  </ul>
+
+  <!-- Pagination -->
+  <ul class="pagination pagination-tabs card-pagination">
+    <li th:each="page_nmb: ${pages}" class="page-item">
+      <a class="page" id="activePage" th:if="${page_nmb - 1 == page}" th:text="${page_nmb}" href="#"/>
+
+      <a class="page" th:if="${page_nmb == 0 && page_nmb - 1 != page}">...</a>
+
+      <a class="page" th:if="${page_nmb != 0 && page_nmb - 1 != page}" th:text="${page_nmb}" th:href="@{${requestUrl}(pageSize=${size}, page=${page_nmb - 1})}"/>
+    </li>
+  </ul>
+
+  <!-- Pagination (next) -->
+  <ul class="pagination pagination-tabs card-pagination">
+    <li class="page-item">
+      <a th:if="${page < totalPages - 1}" class="page-link ps-4 pe-0 border-start" th:href="@{${requestUrl}(pageSize=${size}, page=${page + 1})}">
+        <i class="fe fe-arrow-right me-1"></i> След.
+      </a>
+
+      <a th:if="${page >= totalPages - 1}" class="page-link ps-4 pe-0 border-start" href="#">
+        <i class="fe fe-arrow-right me-1"></i> След.
+      </a>
+
+    </li>
+  </ul>
+
+
+  <script>
+    $(document).ready(() => {
+        $("#activePage").parent().addClass("active")
+    })
+  </script>
+
+</div>

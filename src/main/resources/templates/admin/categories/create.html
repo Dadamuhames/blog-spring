@@ -1,0 +1,106 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+
+<head th:replace="/admin/blocks/header::adminHead('Posts Create')"></head>
+
+<body>
+
+<nav th:replace="/admin/blocks/navbar::navbar"></nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="messages">
+        <div class="alert alert notifs" role="alert"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Header -->
+                <div class="header mb-0">
+                    <div class="header-body top-scroller">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <!-- Title -->
+                                <h1 class="header-title text-truncate">
+                                    Category Create
+                                </h1>
+
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-body" style="padding: 20px;">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Main</a></li>
+                                    <li class="breadcrumb-item"><a th:href="@{/admin/categories}">Categories</a></li>
+                                    <li class="breadcrumb-item active" aria-current="&quot;page&quot;">
+                                        Create
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <form role="form" class="row" method="post" enctype="multipart/form-data" th:action="@{/admin/categories/create}" th:object="${category}">
+                        <div class="col-12 col-xl-12">
+                            <div class="card mt-3">
+                                <div class="card-body p-5">
+                                    <div class="form-group">
+                                        <!-- Label  -->
+                                        <label class="form-label required">
+                                            Загловок
+                                        </label>
+                                        <br>
+                                        <!-- Input -->
+                                        <input
+                                                type="text"
+                                                name="title"
+                                                class="form-control"
+                                                th:field="*{title}"
+                                                value="">
+
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title')}" th:error="*{title}"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <!-- Label  -->
+                                        <label class="form-label required">
+                                            Color
+                                        </label>
+                                        <br>
+                                        <!-- Input -->
+                                        <input type="color" name="hex" th:field="*{hex}">
+
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('hex')}" th:error="*{hex}"/>
+
+                                    </div>
+
+                                    <div class="btn-box text-end">
+                                        <a href="" class="btn w-30 btn-secondary">
+                                            Отменить
+                                        </a>
+                                        <input type="submit" href="@{/admin/categories}" class="btn w-40 btn-primary" value="Сохранить">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <script>
+                        for (let txt of document.querySelectorAll('.editor')) {
+                            CKEDITOR.replace(txt)
+                        }
+                    </script>
+                    <!-- Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/admin/blocks/scripts::scripts"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<div th:fragment="scripts">
+  <script>
+    $(document).ready(() => {
+      $('.nav-link').each((i, e) => {
+        if (e.href === window.location.href || e.href === location.protocol + '//' + location.host + location.pathname) {
+          $(e).addClass('active')
+
+          let parent = $(e).parent().parent().parent()
+          if ($(parent).hasClass('collapse')) {
+            $(parent).collapse('show')
+          }
+          if($(parent).parent().parent().parent().hasClass('collapse')) {
+            $(parent).parent().parent().parent().collapse("show")
+          }
+        }
+      })
+    })
+  </script>
+  <!-- JAVASCRIPT -->
+  <script th:src="@{/admin/src/js/notify.min.js}"></script>
+  <script th:src="@{/admin/assets/js/new_main.js}"></script>
+  <!-- Map JS -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+
+  <!-- Vendor JS -->
+  <script th:src="@{/admin/assets/js/vendor.bundle.js}"></script>
+
+  <!-- Theme JS -->
+  <script th:src="@{/admin/assets/js/theme.bundle.js}"></script>
+</div>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+
+<head th:replace="/admin/blocks/header::adminHead('Posts')"></head>
+
+<body>
+
+<nav th:replace="/admin/blocks/navbar::navbar"></nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="messages">
+        <div class="alert alert notifs" role="alert"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="messages"></div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Header -->
+                <div class="header mb-0">
+                    <div class="header-body top-scroller">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <!-- Title -->
+                                <h1 class="header-title text-truncate">
+                                    Posts
+                                </h1>
+
+                            </div>
+                            <div class="col-auto">
+                                <!-- Navigation (button group) -->
+
+                                <!-- Buttons -->
+                                <a th:href="@{/admin/posts/create}" class="btn btn-primary ms-2">
+                                    Add
+                                </a>
+
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-body" style="padding: 20px;">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Main</a></li>
+                                    <li class="breadcrumb-item active" aria-current="&quot;page&quot;">
+                                        News
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="card" id="contactsList">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <!-- Form -->
+                                    <form method="get">
+                                        <div class="d-flex">
+                                            <div class="input-group input-group-flush input-group-merge input-group-reverse"
+                                                 style="width: 200px;">
+                                                <input class="form-control" name="q" type="search" placeholder="Search" th:value="${q}"/>
+                                                <span class="input-group-text">
+                                                    <i class="fe fe-search"></i>
+                                                </span>
+                                            </div>
+                                            <button class="btn btn-primary" type="submit">Искать</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> <!-- / .row -->
+                        </div>
+                        <div class="table-responsive" style="padding: 20px;">
+                            <table class="table table-sm table-hover table-nowrap card-table">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <a class="list-sort text-muted">№</a>
+                                    </th>
+                                    <th>
+                                        <a class="list-sort text-muted">Изображение</a>
+                                    </th>
+                                    <th>
+                                        <a class="list-sort text-muted">Заголовок</a>
+                                    </th>
+                                    <th>
+                                        <a class="list-sort text-muted">Статус</a>
+                                    </th>
+                                    <th style="width: 200px;"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="list fs-base">
+                                    <tr th:each="post : ${posts}">
+                                        <td>
+                                            <a class="item-title" th:text="${post.index}" />
+                                        </td>
+                                        <td>
+                                            <div class="avatar avatar-xl align-middle me-2">
+                                                <img class="avatar-img" th:src="${fileGetService.getPhotoUrlShow(post.photoUrl, request, 200, 200)}" alt="..." />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="item-phone text-reset" th:text="${post.title}" />
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success-soft" th:if="${post.isActive()}">Active</span>
+                                            <span class="badge bg-danger-soft" th:unless="${post.isActive()}">Inactive</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-end">
+                                                <a th:href="@{/admin/posts/{id}/update(id=${post.id})}" class="btn btn-sm btn-info">
+                                                    <i class="fe fe-edit-2"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-danger ms-3"
+                                                   onclick="let result = confirm('Want to delete?');if (result){form_submit_in_table('delete-form{{ obj.id }}')}">
+                                                    <i class="fe fe-trash"></i></a>
+                                                <form th:action="@{/admin/posts/{id}/delete(id=${post.id})}" id="delete-form{{ obj.id }}" method="POST" style="display: none;">
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between" th:replace="/admin/blocks/pagination::pagination"></div>
+                    </div>
+                    <!-- Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/admin/blocks/scripts::scripts"></div>
+
+</body>
+
+</html>
