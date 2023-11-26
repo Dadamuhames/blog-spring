@@ -19,9 +19,13 @@ public class BlogApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		adminUserRepository.save(new Admin(Long.valueOf("1"),
-				"admin",
-				"$2a$12$nuBnzdW4paCC64fWOAPeWO8RhB347YXhBVHrtE19CwxpJAQQtptTW\n",
-				true));
+		Boolean adminExists = adminUserRepository.existsByUsername("admin");
+
+		if(!adminExists) {
+			adminUserRepository.save(new Admin(Long.valueOf("1"),
+					"admin",
+					"$2a$12$DLgJZNC6smbEwA5SDQxLqObQxrngqaejIIcCcSnFzKyf/pYZisjP.",
+					true));
+		}
 	}
 }

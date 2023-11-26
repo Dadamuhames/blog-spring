@@ -2,16 +2,17 @@ package com.example.demo.services.impls;
 
 import com.example.demo.models.Admin;
 import com.example.demo.repo.AdminUserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
 @Service
-@RequiredArgsConstructor
 public class AdminDetailsServiceImpl implements UserDetailsService {
+    @Autowired
     private AdminUserRepository adminUserRepository;
 
     @Override
