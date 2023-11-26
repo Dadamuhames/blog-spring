@@ -125,6 +125,7 @@ public class PostServiceImpl implements PostService {
                 .photoUrl(post.getPhotoUrl())
                 .active(post.isActive())
                 .createdAt(post.getCreatedAt())
+                .category(post.getCategory())
                 .build();
     }
 }

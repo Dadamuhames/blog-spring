@@ -1,6 +1,7 @@
 package com.example.demo.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -24,6 +25,7 @@ public class Category {
 
     private String hex = "#FF0000";
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<Post> posts = new HashSet<>();
 }

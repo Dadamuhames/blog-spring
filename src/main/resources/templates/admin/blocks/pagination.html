@@ -27,11 +27,11 @@
   <ul class="pagination pagination-tabs card-pagination">
     <li class="page-item">
       <a th:if="${page < totalPages - 1}" class="page-link ps-4 pe-0 border-start" th:href="@{${requestUrl}(pageSize=${size}, page=${page + 1})}">
-        <i class="fe fe-arrow-right me-1"></i> След.
+        След. <i class="fe fe-arrow-right me-1"></i>
       </a>
 
       <a th:if="${page >= totalPages - 1}" class="page-link ps-4 pe-0 border-start" href="#">
-        <i class="fe fe-arrow-right me-1"></i> След.
+        След. <i class="fe fe-arrow-right me-1"></i>
       </a>
 
     </li>

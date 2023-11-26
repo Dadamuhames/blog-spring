@@ -59,7 +59,7 @@
                                                 th:field="*{title}"
                                                 value="">
 
-                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title')}" th:error="*{title}"/>
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title')}" th:error="*{title}"></div>
                                     </div>
 
                                     <div class="form-group">
@@ -71,7 +71,7 @@
                                         <!-- Input -->
                                         <input type="text" name="subtitle" class="form-control" value="" th:field="*{subtitle}">
 
-                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle')}" th:error="*{subtitle}"/>
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle')}" th:errors="*{subtitle}"></div>
 
                                     </div>
 
@@ -104,7 +104,7 @@
                                                     th:value="${category.id}"
                                                     th:text="${category.title}"></option>
                                         </select>
-                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('category_id')}" th:error="*{category_id}"/>
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('category_id')}" th:errors="*{category_id}"></div>
                                     </div>
                                     <!-- Project cover -->
                                     <div class="form-group">
@@ -129,18 +129,18 @@
                                             <div class="dz-preview-container" id="article-image" style="padding: 0;">
                                                 <div class="dz-preview dz-processing dz-complete dz-image-preview" th:if="${requestImage != null}">
                                                     <div class="dz-image">
-                                                        <img data-dz-thumbnail="" alt="Img" th:src="/files/ + ${requestImage}">
+                                                        <img data-dz-thumbnail="" alt="Img" th:src="${'/files/' + requestImage}">
                                                     </div>
                                                     <div class="dz-details">
-                                                        <div class="dz-filename"><span data-dz-name="">{{ img.name }}</span></div>
+                                                        <div class="dz-filename"><span data-dz-name="">Image
+                                                        </span></div>
                                                     </div>
                                                     <a class="dz-remove"
                                                        onclick="var result = confirm('Want to delete?');if (result){submit_form('delete-form-image')}"
                                                        data-dz-remove>Удалить</a>
-                                                    <form th:action="@{/api/files/delete}" id="delete-form-image" method="post">
-                                                        {% csrf_token %}
+                                                    <div th:action="@{/api/files/delete}" id="delete-form-image" method="post">
                                                         <input type="hidden" name="file" th:value="${requestImage}">
-                                                    </form>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -152,7 +152,7 @@
                                     <div class="row">
                                         <div class="col-12 col-xl-6">
                                             <div class="form-check form-switch">
-                                                <input type="checkbox" name="active" th:field="*{active}" class="form-check-input" id="id_active">
+                                                <input type="checkbox" name="active" class="form-check-input" id="id_active" th:checked="${true}">
                                                 <label class="form-check-label">Active</label>
                                             </div>
                                         </div>

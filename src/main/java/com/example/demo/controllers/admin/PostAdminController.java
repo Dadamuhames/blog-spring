@@ -2,8 +2,6 @@ package com.example.demo.controllers.admin;
 
 import com.example.demo.dto.CategoryDto;
 import com.example.demo.dto.PostDto;
-import com.example.demo.models.Category;
-import com.example.demo.models.Post;
 import com.example.demo.services.CategoryService;
 import com.example.demo.services.FileGetService;
 import com.example.demo.services.FileUploadService;
@@ -12,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -81,7 +78,9 @@ public class PostAdminController {
     public String postCreateForm(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, HttpSession session, Model model) {
         if(result.hasErrors()) {
             String image = fileGetService.getImage(session);
+            List<CategoryDto> categories = categoryService.findAll();
 
+            model.addAttribute("categories", categories);
             model.addAttribute("requestImage", image);
             return "admin/blog/create";
         }
@@ -111,17 +110,23 @@ public class PostAdminController {
 
     // update form send
     @PostMapping("/{id}/update")
-    public  String postUpdateForm(@Valid @ModelAttribute("post") PostDto postDto,
-                                  @PathVariable("id") long id,
+    public  String postUpdateForm(@PathVariable("id") long id,
+                                  @Valid @ModelAttribute("post") PostDto postDto,
                                   BindingResult result,
-                                  HttpSession session,
-                                  Model model) {
+                                  HttpSession session, Model model) {
 
         postDto.setId(id);
 
         if(result.hasErrors()) {
             String image = fileGetService.getImage(session);
+            List<CategoryDto> categories = categoryService.findAll();
 
+            if(image == null) {
+                postDto.setPhotoUrl(postService.findById(id).getPhotoUrl());
+            }
+
+            model.addAttribute("post", postDto);
+            model.addAttribute("categories", categories);
             model.addAttribute("requestImage", image);
 
             return "admin/blog/update";

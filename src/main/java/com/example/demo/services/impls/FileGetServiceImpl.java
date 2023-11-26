@@ -76,11 +76,12 @@ public class FileGetServiceImpl implements FileGetService {
 
     @Override
     public String getCorrectFilePath(String path) {
-        String[] pathSplit = path.split("/uploads/");
+        String[] pathSplit = path.split("uploads/");
 
         return "uploads/" + (String) Array.get(pathSplit, pathSplit.length - 1);
     }
 
+    // this method has usage, but in templates (don't remove it!!!)
     @Override
     public String getPhotoUrlShow(String photoUrl, HttpServletRequest request, int width, int height) {
         if(photoUrl == null || photoUrl.isEmpty()) { return "/admin/src/img/default.png"; }

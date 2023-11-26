@@ -59,8 +59,7 @@
                                                 th:field="*{title}"
                                                 value="">
 
-                                        <div class="invalid-feedback" style="display: block;">
-                                        </div>
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                                     </div>
 
                                     <div class="form-group">
@@ -71,9 +70,7 @@
                                         <br>
                                         <!-- Input -->
                                         <input type="text" name="subtitle" class="form-control" value="" th:field="*{subtitle}">
-                                        <div class="invalid-feedback" style="display: block;">
-                                        </div>
-
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle')}" th:errors="*{subtitle}"></div>
                                     </div>
 
                                     <div class="form-group">
@@ -102,13 +99,18 @@
                                         <select class="form-control mb-4" id="category-select" data-choices name="category_id">
                                             <option value="">-----</option>
                                             <option th:each="category : ${categories}"
+                                                    th:if="${post.category != null}"
                                                     th:value="${category.id}"
                                                     th:text="${category.title}"
                                                     th:selected="${category.id==post.category.id}"></option>
-                                        </select>
-                                        <div class="invalid-feedback" id="ctg_error">
 
-                                        </div>
+                                            <option th:each="category : ${categories}"
+                                                    th:if="${post.category == null}"
+                                                    th:value="${category.id}"
+                                                    th:text="${category.title}"
+                                                    th:selected="${category.id==post.category_id}"></option>
+                                        </select>
+                                        <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('category_id')}" th:errors="*{category_id}"/>
                                     </div>
                                     <!-- Project cover -->
                                     <div class="form-group">
@@ -143,18 +145,17 @@
 
                                                 <div class="dz-preview dz-processing dz-complete dz-image-preview" th:if="${requestImage != null}">
                                                     <div class="dz-image">
-                                                        <img data-dz-thumbnail="" alt="Img" th:src="/files/ + ${requestImage}">
+                                                        <img data-dz-thumbnail="" alt="Img" th:src="${'/files/' + requestImage}">
                                                     </div>
                                                     <div class="dz-details">
-                                                        <div class="dz-filename"><span data-dz-name="">{{ img.name }}</span></div>
+                                                        <div class="dz-filename"><span data-dz-name="">Image</span></div>
                                                     </div>
                                                     <a class="dz-remove"
                                                        onclick="var result = confirm('Want to delete?');if (result){submit_form('delete-form-image')}"
                                                        data-dz-remove>Удалить</a>
-                                                    <form th:action="@{/api/files/delete}" id="delete-form-image" method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="file" th:value="${requestImage}">
-                                                    </form>
+                                                    <div th:action="@{/api/files/delete}" id="delete-form-image" method="post">
+                                                        <input type="hidden" name="filePath" th:value="${requestImage}">
+                                                    </div>
                                                 </div>
                                             </div>
 

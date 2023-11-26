@@ -85,6 +85,9 @@
                                         <a class="list-sort text-muted">Заголовок</a>
                                     </th>
                                     <th>
+                                        <a class="list-sort text-muted">Категория</a>
+                                    </th>
+                                    <th>
                                         <a class="list-sort text-muted">Статус</a>
                                     </th>
                                     <th style="width: 200px;"></th>
@@ -102,6 +105,9 @@
                                         </td>
                                         <td>
                                             <p class="item-phone text-reset" th:text="${post.title}" />
+                                        </td>
+                                        <td>
+                                            <p class="item-phone text-reset" th:text="${post.category.title}" />
                                         </td>
                                         <td>
                                             <span class="badge bg-success-soft" th:if="${post.isActive()}">Active</span>
