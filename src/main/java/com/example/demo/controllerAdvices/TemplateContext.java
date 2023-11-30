@@ -48,11 +48,6 @@ public class TemplateContext {
         return Integer.parseInt(pageSize);
     }
 
-    @ModelAttribute("q")
-    public String getQ(HttpServletRequest request) {
-        return request.getParameter("q");
-    }
-
     @ModelAttribute("fileGetService")
     public FileGetService getFileGetService() {
         return fileGetService;
