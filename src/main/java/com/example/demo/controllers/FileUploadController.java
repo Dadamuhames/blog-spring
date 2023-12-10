@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -31,7 +32,12 @@ public class FileUploadController {
 
    // upload file
     @PostMapping("/upload")
-    public Map<String, String> uploadFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request, HttpSession session) {
+    public Map<String, String> uploadFile(@RequestParam("file") MultipartFile file,
+                                          @RequestParam(value = "fileKey", defaultValue = "images") String fileKey,
+                                          @RequestParam(value = "save", defaultValue = "false") boolean save,
+                                          HttpServletResponse response,
+                                          HttpServletRequest request,
+                                          HttpSession session) {
        Map<String, String> result = new HashMap<>();
 
        if(!file.isEmpty()) {
@@ -45,18 +51,23 @@ public class FileUploadController {
                result.put("showUrl", fileGetService.getShowUrl(request, filePath));
 
 
-               List<String> sessionImages = (List<String>) session.getAttribute("images");
+               if(save) {
+                   Object sessionImagesObject = session.getAttribute(fileKey);
+                   List<String> sessionImages;
 
-               if(sessionImages == null) {
-                   sessionImages = new ArrayList<>();
-                   session.setAttribute("images", sessionImages);
+                   if(sessionImagesObject instanceof List<?>) {
+                       sessionImages = (List<String>) sessionImagesObject;
+                   } else {
+                       sessionImages = new ArrayList<>();
+                       session.setAttribute(fileKey, sessionImages);
+                   }
+
+                   sessionImages.add(filePath);
                }
-
-               sessionImages.add(filePath);
 
            } catch (Exception e) {
                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-               result.put("error", e.getMessage());
+               result.put("error", e.toString());
            }
 
        } else {
@@ -70,7 +81,12 @@ public class FileUploadController {
 
    // delete file by path
    @PostMapping("/delete")
-    public Map<String, Object> deleteFile(@RequestParam("filePath") String filePath, HttpServletResponse response, HttpSession session) {
+    public Map<String, Object> deleteFile(
+            @RequestParam("filePath") String filePath,
+            @RequestParam(value = "fileKey", defaultValue = "images") String fileKey,
+            HttpServletResponse response,
+            HttpSession session) {
+
        Map<String, Object> result = new HashMap<>();
        Map<String, Object> errors = new HashMap<>();
 
@@ -79,9 +95,11 @@ public class FileUploadController {
                 Boolean deleted = fileUploadService.deleteFile(filePath);
                 result.put("deleted", deleted);
 
-                List<String> sessionImages = (List<String>) session.getAttribute("images");
+                Object sessionImagesObject = session.getAttribute(fileKey);
 
-                if(sessionImages != null) {
+                if(sessionImagesObject instanceof List<?>) {
+                    List<String> sessionImages = (List<String>) sessionImagesObject;
+
                     String fileDeletePath = fileGetService.getCorrectFilePath(filePath);
                     sessionImages.remove(fileDeletePath);
                 }

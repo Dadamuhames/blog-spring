@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +28,8 @@ public class FileGetServiceImpl implements FileGetService {
     }
 
     @Override
-    public String getImage(HttpSession session) {
-        List<String> sessionImages = (List<String>) session.getAttribute("images");
+    public String getImage(HttpSession session, String fileKey) {
+        List<String> sessionImages = (List<String>) session.getAttribute(fileKey);
 
         String image = null;
 
@@ -37,6 +38,17 @@ public class FileGetServiceImpl implements FileGetService {
         }
 
         return image;
+    }
+
+    @Override
+    public List<String> getImages(HttpSession session, String fileKey) {
+        List<String> sessionImages = (List<String>) session.getAttribute(fileKey);
+
+        if(sessionImages == null) {
+            return new ArrayList<>();
+        }
+
+        return sessionImages;
     }
 
     @Override

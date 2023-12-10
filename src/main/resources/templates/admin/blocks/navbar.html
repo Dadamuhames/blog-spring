@@ -24,7 +24,7 @@
         <!-- Navigation -->
           <ul class="navbar-nav">
               <li class="nav-item">
-                  <a class="nav-link" href="" role="button" aria-expanded="false"
+                  <a class="nav-link" th:href="@{/admin/posts}" role="button" aria-expanded="false"
                      aria-controls="sidebarDashboards">
                       <i class="fe fe-home"></i> Dashboards
                   </a>
@@ -32,12 +32,24 @@
 
               <hr class="navbar-divider my-3">
               <li class="nav-item">
-                  <a class="nav-link " href="">
-                      <i class="fe fe-clipboard"></i> Заявки с сайта
+                  <a class="nav-link " th:href="@{/admin/posts}">
+                      <i class="fe fe-clipboard"></i> Новости
                   </a>
               </li>
 
-            <!-- Divider -->
+              <li class="nav-item">
+                  <a class="nav-link " th:href="@{/admin/categories}">
+                      <i class="fe fe-clipboard"></i> Категории
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a class="nav-link " th:href="@{/admin/events}">
+                      <i class="fe fe-clipboard"></i> События
+                  </a>
+              </li>
+
+              <!-- Divider -->
               <hr class="navbar-divider my-3">
 
               <li class="nav-item">
@@ -45,22 +57,22 @@
                      aria-expanded="false" aria-controls="sidebarPages">
                       <i class="fe fe-settings"></i> Настройки сайта
                   </a>
-                  <div class="" id="settingsPages">
+                  <div class="collapse" id="settingsPages">
                       <ul class="nav nav-sm flex-column">
                           <li class="nav-item">
-                              <a href="" class="nav-link" role="button"
+                              <a href="/" class="nav-link" role="button"
                                  aria-expanded="false" aria-controls="sidebarAccount">
                                   Общие данные
                               </a>
-                              <a href="" class="nav-link" role="button"
+                              <a th:href="@{/admin/langs}" class="nav-link" role="button"
                                  aria-expanded="false" aria-controls="sidebarAccount">
                                   Языки
                               </a>
-                              <a href="" class="nav-link" role="button"
+                              <a href="/" class="nav-link" role="button"
                                  aria-expanded="false" aria-controls="sidebarAccount">
                                   Переводы
                               </a>
-                              <a href="" class="nav-link" role="button"
+                              <a href="/" class="nav-link" role="button"
                                  aria-expanded="false" aria-controls="sidebarAccount">
                                   Админы
                               </a>
@@ -90,7 +102,7 @@
 
                 <!-- Menu -->
                   <div class="dropdown-menu" aria-labelledby="sidebarIconCopy">
-                      <form id="logout-form" method="post" action="/admin-panel/logout">
+                      <form id="logout-form" method="post" th:action="@{/admin/logout}">
                           <button type="submit" class="dropdown-item">Выйти</button>
                       </form>
                   </div>

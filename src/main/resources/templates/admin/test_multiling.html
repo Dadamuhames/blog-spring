@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/testpage}" method="post">
+        <div th:each="lang : ${langs}">
+            <input type="text" th:name="name[ + ${lang} + ]" value="value1" /> <br>
+        </div>
+
+        <br><br>
+
+        <div th:each="lang : ${langs}">
+            <input type="text" th:name="title[ + ${lang} + ]" value="value1" /> <br>
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>

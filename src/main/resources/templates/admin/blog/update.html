@@ -96,7 +96,7 @@
                                         </label>
                                         <br>
                                         <!-- Input -->
-                                        <select class="form-control mb-4" id="category-select" data-choices name="category_id">
+                                        <select class="form-select mb-4" id="category-select" data-choices name="category_id">
                                             <option value="">-----</option>
                                             <option th:each="category : ${categories}"
                                                     th:if="${post.category != null}"

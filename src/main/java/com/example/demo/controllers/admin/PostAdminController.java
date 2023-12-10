@@ -66,9 +66,7 @@ public class PostAdminController {
         model.addAttribute("post", post);
         model.addAttribute("categories", categories);
 
-        List<String> emptyList = new ArrayList<>();
-
-        session.setAttribute("images", emptyList);
+        fileUploadService.deleteFiles("eventImages", session);
 
         return "admin/blog/create";
     }
@@ -77,7 +75,7 @@ public class PostAdminController {
     @PostMapping("/create")
     public String postCreateForm(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result, HttpSession session, Model model) {
         if(result.hasErrors()) {
-            String image = fileGetService.getImage(session);
+            String image = fileGetService.getImage(session, "images");
             List<CategoryDto> categories = categoryService.findAll();
 
             model.addAttribute("categories", categories);
@@ -118,7 +116,7 @@ public class PostAdminController {
         postDto.setId(id);
 
         if(result.hasErrors()) {
-            String image = fileGetService.getImage(session);
+            String image = fileGetService.getImage(session, "images");
             List<CategoryDto> categories = categoryService.findAll();
 
             if(image == null) {

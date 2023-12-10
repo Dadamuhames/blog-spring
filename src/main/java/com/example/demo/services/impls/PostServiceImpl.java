@@ -1,5 +1,6 @@
 package com.example.demo.services.impls;
 
+import com.example.demo.dto.EventDto;
 import com.example.demo.dto.PostDto;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.models.Category;
@@ -68,7 +69,11 @@ public class PostServiceImpl implements PostService {
 
         return posts.map((post) -> {
             int ind = index.getAndIncrement();
-            return toDtoWithIndex(post, ind + 1);
+            PostDto eventDto = modelMapper.map(post, PostDto.class);
+
+            eventDto.setIndex(ind + 1);
+
+            return eventDto;
         });
     }
 
@@ -81,7 +86,7 @@ public class PostServiceImpl implements PostService {
 
         Category category = categoryRepository.findById(category_id).orElse(null);
 
-        String image = fileGetService.getImage(session);
+        String image = fileGetService.getImage(session, "images");
 
         post.setCategory(category);
 
@@ -113,19 +118,5 @@ public class PostServiceImpl implements PostService {
         fileUploadService.deleteFile(file);
 
         postRepository.save(post);
-    }
-
-
-    private PostDto toDtoWithIndex(Post post, int index) {
-        return PostDto.builder()
-                .index(index)
-                .id(post.getId())
-                .title(post.getTitle())
-                .subtitle(post.getSubtitle())
-                .photoUrl(post.getPhotoUrl())
-                .active(post.isActive())
-                .createdAt(post.getCreatedAt())
-                .category(post.getCategory())
-                .build();
     }
 }

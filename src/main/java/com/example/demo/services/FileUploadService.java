@@ -14,4 +14,6 @@ public interface FileUploadService {
     public String saveFile(MultipartFile file) throws IOException;
 
     public boolean deleteFile(String path);
+
+    public void deleteFiles(String filesKey, HttpSession session);
 }

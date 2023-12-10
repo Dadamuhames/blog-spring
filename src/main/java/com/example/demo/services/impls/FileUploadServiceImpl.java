@@ -1,9 +1,11 @@
 package com.example.demo.services.impls;
 
+import com.example.demo.services.FileGetService;
 import com.example.demo.services.FileUploadService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +18,14 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
-
-    @Autowired
-    ServletContext context;
+    private final ServletContext context;
+    private final FileGetService fileGetService;
 
     @Override
     public String getNewFileName(String fileName) {
@@ -79,5 +82,18 @@ public class FileUploadServiceImpl implements FileUploadService {
         File file = new File(path);
 
         return file.delete();
+    }
+
+    @Override
+    public void deleteFiles(String filesKey, HttpSession session) {
+        List<String> images = fileGetService.getImages(session, filesKey);
+
+        for(String image : images) {
+            deleteFile(image);
+        }
+
+        List<String> emptyList = new ArrayList<>();
+
+        session.setAttribute(filesKey, emptyList);
     }
 }

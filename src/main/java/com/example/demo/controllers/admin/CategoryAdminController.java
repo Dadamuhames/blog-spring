@@ -2,6 +2,7 @@ package com.example.demo.controllers.admin;
 
 import com.example.demo.models.Category;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import com.example.demo.dto.CategoryDto;
 import com.example.demo.services.CategoryService;
@@ -19,15 +20,9 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/categories")
+@RequiredArgsConstructor
 public class CategoryAdminController {
-
     private final CategoryService categoryService;
-
-    @Autowired
-    public CategoryAdminController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
 
     // categories list
     @GetMapping({"", "/"})
@@ -66,11 +61,11 @@ public class CategoryAdminController {
     // category create form post
     @PostMapping("/create")
     public String postCreateForm(@Valid  @ModelAttribute("category") CategoryDto categoryDto, BindingResult result) {
-        categoryService.saveCategory(categoryDto);
-
         if(result.hasErrors()) {
             return "admin/categories/create";
         }
+
+        categoryService.saveCategory(categoryDto);
 
         return "redirect:/admin/categories";
     }

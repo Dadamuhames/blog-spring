@@ -5,8 +5,8 @@ import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.models.Category;
 import com.example.demo.repo.CategoryRepository;
 import com.example.demo.services.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    public CategoryRepository categoryRepository;
+    public final CategoryRepository categoryRepository;
     ModelMapper modelMapper = new ModelMapper();
-
-
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
 
     @Override
     public List<CategoryDto> findAll() {
@@ -51,8 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
         AtomicInteger index = new AtomicInteger();
 
         return categories.map((category) -> {
-           int ind = index.getAndIncrement();
-           return toDtoWithIndex(category, ind + 1);
+            int ind = index.getAndIncrement();
+            CategoryDto eventDto = modelMapper.map(category, CategoryDto.class);
+
+            eventDto.setIndex(ind + 1);
+
+            return eventDto;
         });
     }
 
@@ -66,15 +64,5 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(long id) {
         categoryRepository.deleteById(id);
-    }
-
-
-    private CategoryDto toDtoWithIndex(Category category, int index) {
-        return CategoryDto.builder()
-                .index(index)
-                .id(category.getId())
-                .title(category.getTitle())
-                .hex(category.getHex())
-                .build();
     }
 }

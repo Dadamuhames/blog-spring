@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+
+<head th:replace="~{/admin/blocks/header::adminHead('Login')}"></head>
+
+<body>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5 col-xl-4 my-5">
+
+            <!-- Heading -->
+            <h1 class="display-4 text-center mb-3">
+                Sign in
+            </h1>
+
+            <!-- Form -->
+            <form method="post" th:action="@{/admin/login}">
+                <!-- Email address -->
+                <div class="form-group">
+
+                    <!-- Label -->
+                    <label class="form-label">
+                        Username
+                    </label>
+
+                    <!-- Input -->
+                    <input type="text" name="username" class="form-control" placeholder="name@address.com">
+
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+
+                            <!-- Label -->
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                        </div>
+                    </div> <!-- / .row -->
+
+                    <!-- Input group -->
+                    <div class="input-group input-group-merge">
+
+                        <!-- Input -->
+                        <input class="form-control" name="password" type="password" placeholder="Enter your password">
+
+                        <!-- Icon -->
+                        <span class="input-group-text" id="show_pass">
+                            <i class="fe fe-eye"></i>
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="invalid-feedback" style="display: block;" th:if="${param.error}">
+                    Invalid password or username
+                </div>
+
+                <br>
+
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-lg w-100 btn-primary mb-3" value="Log in">
+                    Sign in
+                </button>
+            </form>
+
+        </div>
+    </div> <!-- / .row -->
+</div> <!-- / .container -->
+
+
+<div th:replace="~{/admin/blocks/scripts::scripts}"></div>
+
+<script>
+    $(document).ready(() => {
+        $("#show_pass").on("click", () => {
+            let inp = $('[name="password"]')
+
+            if($(inp).attr('type') == 'text') {
+                $(inp).attr("type", 'password')
+            } else if($(inp).attr('type') == 'password') {
+                $(inp).attr("type", 'text')
+            }
+        })
+    })
+</script>
+
+</body>
+
+</html>

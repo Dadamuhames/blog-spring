@@ -49,6 +49,14 @@ $(document).on("click", '.fe.fe-copy', (e) => {
 $('.dropzone').each((i, e) => {
     let accept = $(e).attr("data-accept")
 
+    let params = {};
+    params.save = true;
+    let fileKey = $(e).attr("data-file-key");
+
+    if (fileKey) {
+        params.fileKey = fileKey;
+    }
+
     if (accept == undefined) {
         accept = '.jpg, .png, .jpeg, .ico'
     }
@@ -61,6 +69,7 @@ $('.dropzone').each((i, e) => {
         acceptedFiles: accept,
         maxFilesize: 2,
         maxFiles: $(e).attr('data-max'),
+        params: params,
         previewsContainer: `#${$(e).find('.dz-preview-container').attr('id')}`,
         success: (file, response) => {
             var removeButton = Dropzone.createElement(`<a class="dz-remove" data-dz-remove>Удалить</a>`);
@@ -70,6 +79,11 @@ $('.dropzone').each((i, e) => {
                 myDropzone.removeFile(file);
 
                 data = {}
+
+                if(fileKey) {
+                    data['fileKey'] = fileKey;
+                }
+
                 data['filePath'] = response.filePath;
 
                 $.ajax({

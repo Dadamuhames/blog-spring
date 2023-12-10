@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableCaching
 public class BlogApplication implements CommandLineRunner {
 	private final AdminUserRepository adminUserRepository;
 	public static void main(String[] args) {

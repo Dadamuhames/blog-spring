@@ -2,7 +2,7 @@
   <script>
     $(document).ready(() => {
       $('.nav-link').each((i, e) => {
-        if (e.href === window.location.href || e.href === location.protocol + '//' + location.host + location.pathname) {
+        if (e.href === location.protocol + '//' + location.host + location.pathname) {
           $(e).addClass('active')
 
           let parent = $(e).parent().parent().parent()

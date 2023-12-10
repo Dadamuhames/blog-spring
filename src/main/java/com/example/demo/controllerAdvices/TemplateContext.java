@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
@@ -51,6 +52,17 @@ public class TemplateContext {
     @ModelAttribute("fileGetService")
     public FileGetService getFileGetService() {
         return fileGetService;
+    }
+
+
+    @ModelAttribute("defaultLang")
+    public String getDefaultLang() {
+        return "ru";
+    }
+
+    @ModelAttribute("langs")
+    public String[] getLanguages() {
+        return new String[] {"ru", "en", "uz"};
     }
 
 }
