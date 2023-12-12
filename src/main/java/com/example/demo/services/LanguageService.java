@@ -8,6 +8,8 @@ import java.util.List;
 public interface LanguageService {
     public Language findDefault();
     public List<LangDto> findAll();
+
+    public List<Language> findActives();
     public Language findById(long id);
     public void deleteLanguage(long id);
     public void saveLanguage(Language language);

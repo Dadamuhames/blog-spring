@@ -1,19 +1,21 @@
 package com.example.demo.controllerAdvices;
 
+import com.example.demo.models.Language;
 import com.example.demo.services.FileGetService;
+import com.example.demo.services.LanguageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
-import java.util.Map;
 
 @ControllerAdvice
 @RequiredArgsConstructor
 public class TemplateContext {
 
     private final FileGetService fileGetService;
+    private final LanguageService languageService;
 
     @ModelAttribute("request")
     public HttpServletRequest getRequest(HttpServletRequest request) {
@@ -56,13 +58,13 @@ public class TemplateContext {
 
 
     @ModelAttribute("defaultLang")
-    public String getDefaultLang() {
-        return "ru";
+    public Language getDefaultLang() {
+        return languageService.findDefault();
     }
 
     @ModelAttribute("langs")
-    public String[] getLanguages() {
-        return new String[] {"ru", "en", "uz"};
+    public List<Language> getLanguages() {
+        return languageService.findActives();
     }
 
 }

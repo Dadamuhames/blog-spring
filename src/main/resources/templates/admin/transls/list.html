@@ -1,0 +1,149 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+
+<head th:replace="~{/admin/blocks/header::adminHead('Translations')}"></head>
+
+<body>
+
+<nav th:replace="~{/admin/blocks/navbar::navbar}"></nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    <div class="messages">
+        <div class="alert alert notifs" role="alert"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="messages"></div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Header -->
+                <div class="header mb-0">
+                    <div class="header-body top-scroller">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <!-- Title -->
+                                <h1 class="header-title text-truncate">
+                                    Translations
+                                </h1>
+
+                            </div>
+                            <div class="col-auto">
+                                <!-- Navigation (button group) -->
+
+                                <!-- Buttons -->
+                                <a th:href="@{/admin/events/create}" class="btn btn-primary ms-2">
+                                    Add
+                                </a>
+
+                            </div>
+                        </div> <!-- / .row -->
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-body" style="padding: 20px;">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Main</a></li>
+                                    <li class="breadcrumb-item active" aria-current="&quot;page&quot;">
+                                        Translations
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="groups">
+                        <div class="card">
+                            <!-- <p class="mb-0 ps-4 pt-3">Группы</p> -->
+                            <div class="card-body">
+                                <div class="links" id="group_links" th:each="group : ${groups}">
+                                    <a class="btn btn-info me-3 bg-transparent text-info group-link" th:text="${group.name}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="card" id="contactsList">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <!-- Form -->
+                                    <form method="get">
+                                        <div class="d-flex">
+                                            <div class="input-group input-group-flush input-group-merge input-group-reverse"
+                                                 style="width: 200px;">
+                                                <input class="form-control" name="q" type="search" placeholder="Search" th:value="${param.q}"/>
+                                                <span class="input-group-text">
+                                                    <i class="fe fe-search"></i>
+                                                </span>
+                                            </div>
+                                            <button class="btn btn-primary" type="submit">Искать</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> <!-- / .row -->
+                        </div>
+                        <div class="table-responsive" style="padding: 20px;">
+                            <table class="table table-sm table-hover table-nowrap card-table">
+                                <thead>
+                                <tr>
+                                    <th style="width: 30px;">
+                                        <a class="list-sort text-muted">№</a>
+                                    </th>
+                                    <th>
+                                        <a class="list-sort text-muted">Ключ</a>
+                                    </th>
+                                    <th th:each="lang : ${langs}">
+                                        <a class="list-sort text-muted" th:text="'Значение(' + ${lang.code} + ')'"></a>
+                                    </th>
+                                    <th style="width: 200px;"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="list fs-base">
+                                <tr th:each="obj : ${objects}">
+                                    <td>
+                                        <a class="item-title" th:text="${obj.index}" />
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="input-group-text border-0 bg-transparent p-0">
+                                                <span class="fe fe-copy" style="cursor: pointer;">
+                                                    <span class="text-dark transl-key"
+                                                          style="cursor: pointer; outline: none; border:none; font-family: 'Verdana'" th:text="${obj.group.sub_text} + '.' + ${obj.keyword}"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <a th:href="@{/admin/events/{id}/update(id=${obj.id})}" class="btn btn-sm btn-info">
+                                                <i class="fe fe-edit-2"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-danger ms-3"
+                                               th:onclick="|let result = confirm('Want to delete?');if (result){form_submit_in_table('delete-form${obj.id}')}|">
+                                                <i class="fe fe-trash"></i></a>
+                                            <form th:action="@{/admin/events/{id}/delete(id=${obj.id})}" th:id="delete-form + ${obj.id}" method="POST" style="display: none;">
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between" th:replace="/admin/blocks/pagination::pagination"></div>
+
+                    </div>
+                    <!-- Content End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/admin/blocks/scripts::scripts"></div>
+
+</body>
+
+</html>

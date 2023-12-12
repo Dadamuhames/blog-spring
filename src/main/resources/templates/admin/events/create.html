@@ -48,21 +48,21 @@
                                 <div class="card-header p-4 pb-0">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation" th:each="lang : ${langs}">
-                                            <button class="nav-link px-3 py-2 active" th:id="tab_ + ${ lang }" data-bs-toggle="tab"
-                                                    th:data-bs-target="'#' + ${lang}" type="button" role="tab" th:aria-controls="${lang}"
-                                                    aria-selected="false" th:text="${lang}" th:if='${lang == "ru"}'></button>
+                                            <button class="nav-link px-3 py-2 active" th:id="tab_ + ${ lang.code }" data-bs-toggle="tab"
+                                                    th:data-bs-target="'#' + ${lang.code}" type="button" role="tab" th:aria-controls="${lang.code}"
+                                                    aria-selected="false" th:text="${lang.name}" th:if='${lang.isDefault()}'></button>
 
-                                            <button class="nav-link px-3 py-2" th:id="tab_ + ${ lang }" data-bs-toggle="tab"
-                                                    th:data-bs-target="'#' + ${lang}" type="button" role="tab" th:aria-controls="${lang}"
-                                                    aria-selected="true" th:text="${lang}" th:unless='${lang == "ru"}'></button>
+                                            <button class="nav-link px-3 py-2" th:id="tab_ + ${ lang.code }" data-bs-toggle="tab"
+                                                    th:data-bs-target="'#' + ${lang.code}" type="button" role="tab" th:aria-controls="${lang.code}"
+                                                    aria-selected="true" th:text="${lang.name}" th:unless='${lang.isDefault()}'></button>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="card-body p-5">
                                     <div class="tab-content" id="myTabContent">
                                         <div class="" th:each="lang : ${langs}"
-                                             th:attr="class=${lang.equals('ru') ? 'tab-pane fade show active' : 'tab-pane fade'}"
-                                             th:id="${lang}" role="tabpanel" th:aria-labelledby="${lang}">
+                                             th:attr="class=${lang.isDefault() ? 'tab-pane fade show active' : 'tab-pane fade'}"
+                                             th:id="${lang.code}" role="tabpanel" th:aria-labelledby="${lang.code}">
                                             <div class="form-group">
                                                 <!-- Label  -->
                                                 <label class="form-label required">
@@ -73,9 +73,9 @@
                                                 <input
                                                         type="text"
                                                         class="form-control"
-                                                        th:name="title[ + ${lang} + ]">
+                                                        th:name="title[ + ${lang.code} + ]">
 
-                                                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title') && lang.equals('ru')}" th:errors="*{title}"></div>
+                                                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title') && lang.isDefault()}" th:errors="*{title}"></div>
                                             </div>
 
                                             <div class="form-group">
@@ -85,9 +85,9 @@
                                                 </label>
                                                 <br>
                                                 <!-- Input -->
-                                                <input type="text" class="form-control" th:name="subtitle[ + ${lang} + ]">
+                                                <input type="text" class="form-control" th:name="subtitle[ + ${lang.code} + ]">
 
-                                                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle') && lang.equals('ru')}" th:errors="*{subtitle}"></div>
+                                                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle') && lang.isDefault()}" th:errors="*{subtitle}"></div>
 
                                             </div>
 
@@ -98,7 +98,9 @@
                                                 </label>
                                                 <br>
                                                 <!-- Textarea -->
-                                                <textarea class="editor" th:name="description[ + ${lang} + ]" placeholder="Text"></textarea>
+                                                <textarea class="editor" th:name="description[ + ${lang.code} + ]" placeholder="Text"></textarea>
+
+                                                <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('description') && lang.isDefault()}" th:errors="*{description}"></div>
                                             </div>
                                         </div>
                                     </div>

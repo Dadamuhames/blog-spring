@@ -8,6 +8,10 @@ import com.example.demo.repo.LanguageRepository;
 import com.example.demo.services.LanguageService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +27,14 @@ public class LanguageServiceImpl implements LanguageService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
+    @Cacheable(value = "defaultLanguageCache", key = "'defaultLang'")
     public Language findDefault() {
         return languageRepository.findDefault().orElse(null);
     }
 
     @Override
     public List<LangDto> findAll() {
-        List<Language> languages = languageRepository.findAll();
+        List<Language> languages = languageRepository.findAll(Sort.by(Sort.Direction.DESC, "IsDefault"));
 
         AtomicInteger index = new AtomicInteger();
 
@@ -44,12 +49,19 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    @Cacheable(value = "allLangsCache", key = "'activeLangs'")
+    public List<Language> findActives() {
+        return languageRepository.findActives();
+    }
+
+    @Override
     public Language findById(long id) {
         return languageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Event not found"));
     }
 
     @Override
     @Transactional
+    @CacheEvict(key = "'activeLangs'")
     public void deleteLanguage(long id) {
         Language language = findById(id);
 
@@ -69,6 +81,11 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "allLangsCache", key = "'activeLangs'"),
+            @CacheEvict(value = "defaultLanguageCache", key = "'defaultLang'"),
+
+    })
     public void saveLanguage(Language language) {
         if(language.isDefault()) {
             List<Language> allDefaults = languageRepository.findDefaults();

@@ -3,10 +3,10 @@ package com.example.demo.controllers.admin;
 import com.example.demo.dto.EventDto;
 import com.example.demo.models.EventImage;
 import com.example.demo.repo.EventImageRepository;
+import com.example.demo.services.EnumerateMapperService;
 import com.example.demo.services.EventService;
 import com.example.demo.services.FileGetService;
 import com.example.demo.services.FileUploadService;
-import com.example.demo.services.impls.OtpServiceImpl;
 import com.example.demo.utils.Paginate;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -30,7 +30,7 @@ public class EventAdminController {
     private final FileGetService fileGetService;
     private final FileUploadService fileUploadService;
     private final EventImageRepository eventImageRepository;
-    private final OtpServiceImpl.EnumerateMapper enumerateMapper;
+    private final EnumerateMapperService enumerateMapperService;
 
     @GetMapping({"", "/"})
     public String eventsList(Model model,
@@ -110,13 +110,17 @@ public class EventAdminController {
 
         if (result.hasErrors()) {
 
+            System.out.println(eventDto);
+
+            System.out.println(result.getAllErrors());
+
             List<String> images = fileGetService.getImages(session, "eventImages");
 
             Set<EventImage> eventImages = eventImageRepository.findByEventId(id);
 
             eventDto.setImages(eventImages);
 
-            model.addAttribute("requestImages", enumerateMapper.enumerate(images));
+            model.addAttribute("requestImages", enumerateMapperService.enumerate(images));
             model.addAttribute("event", eventDto);
 
             return "admin/events/update";

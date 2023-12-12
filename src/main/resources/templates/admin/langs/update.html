@@ -1,0 +1,113 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
+
+<head th:replace="~{/admin/blocks/header::adminHead('Langs Create')}"></head>
+
+<body>
+
+<nav th:replace="~{/admin/blocks/navbar::navbar}"></nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="messages">
+    <div class="alert alert notifs" role="alert"></div>
+  </div>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <!-- Header -->
+        <div class="header mb-0">
+          <div class="header-body top-scroller">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Title -->
+                <h1 class="header-title text-truncate">
+                  Langs Edit
+                </h1>
+
+              </div>
+            </div> <!-- / .row -->
+          </div>
+          <div class="card mt-4">
+            <div class="card-body" style="padding: 20px;">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Main</a></li>
+                  <li class="breadcrumb-item"><a th:href="@{/admin/langs}">Langs</a></li>
+                  <li class="breadcrumb-item active" aria-current="&quot;page&quot;">
+                    Edit
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          <!-- Content -->
+          <form role="form" class="row" method="post" enctype="multipart/form-data" th:action="@{/admin/langs/{id}/update(id=${lang.id})}" th:object="${lang}">
+            <div class="col-12 col-xl-8">
+              <div class="card mt-3">
+                <div class="card-body p-5">
+                  <div class="form-group">
+                    <!-- Label  -->
+                    <label class="form-label required">
+                      Название
+                    </label>
+                    <br>
+                    <!-- Input -->
+                    <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            th:field="*{name}">
+
+                    <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                  </div>
+
+                  <div class="form-group">
+                    <!-- Label  -->
+                    <label class="form-label required">
+                      Код
+                    </label>
+                    <br>
+                    <!-- Input -->
+                    <input type="text" name="code" class="form-control" th:field="*{code}">
+
+                    <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12 col-xl-6">
+                      <div class="form-check form-switch">
+                        <input type="checkbox" name="active" class="form-check-input" th:field="*{active}" id="id_active" th:checked="${true}">
+                        <label class="form-check-label">Active</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
+                      <div class="form-check form-switch">
+                        <input type="checkbox" name="isDefault" th:field="*{default}" class="form-check-input" id="id_default">
+                        <label class="form-check-label">Default</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="btn-box text-end">
+                    <a th:href="@{/admin/langs}" class="btn w-30 btn-secondary">
+                      Отменить
+                    </a>
+                    <input type="submit" href="#" class="btn w-40 btn-primary" value="Сохранить">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <!-- Content End -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="/admin/blocks/scripts::scripts"></div>
+
+</body>
+
+</html>

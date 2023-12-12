@@ -40,21 +40,4 @@ public class OtpServiceImpl implements OtpService {
     public boolean isValid(String phoneNumber) {
         return false;
     }
-
-    @Service
-    public static class EnumerateMapper {
-        public List<Map<String, Object>> enumerate(List<String> list) {
-            AtomicInteger index = new AtomicInteger();
-
-            return list.stream().map((image) -> {
-                int ind = index.getAndIncrement();
-                Map<String, Object> obj = new HashMap<>();
-
-                obj.put("image", image);
-                obj.put("index", ind + 1);
-
-                return obj;
-            }).toList();
-        }
-    }
 }

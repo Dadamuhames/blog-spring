@@ -42,7 +42,9 @@ public class EventServiceImpl implements EventService {
     public Page<EventDto> searchEvents(String q, Pageable pageable) {
         Page<Event> events = eventRepository.searchEvents(q, pageable);
 
-        AtomicInteger index = new AtomicInteger();
+        int startIndex = (pageable.getPageNumber() - 1) * pageable.getPageSize();
+
+        AtomicInteger index = new AtomicInteger(startIndex);
 
         return events.map((event) -> {
             int ind = index.getAndIncrement();

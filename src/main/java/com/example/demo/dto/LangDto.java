@@ -7,14 +7,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LangDto {
+public class LangDto implements Serializable {
     private Long id;
     private int index;
-
 
     private String name;
 

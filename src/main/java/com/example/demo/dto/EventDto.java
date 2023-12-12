@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class EventDto {
     private int index;
 
