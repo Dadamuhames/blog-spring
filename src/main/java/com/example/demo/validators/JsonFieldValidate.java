@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Map;
 
-public class JsonFieldValidate implements ConstraintValidator<JsonFieldConstraint, Map<String, Object>> {
+public class JsonFieldValidate implements ConstraintValidator<JsonFieldConstraint, Map<String, String>> {
     @Override
     public boolean isValid(Map map, ConstraintValidatorContext constraintValidatorContext) {
         String defaultLang = "ru";

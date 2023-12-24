@@ -24,6 +24,7 @@ public class TranslationGroup {
 
     @NotEmpty
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotEmpty

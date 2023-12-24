@@ -56,7 +56,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public Language findById(long id) {
-        return languageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Event not found"));
+        return languageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Language not found"));
     }
 
     @Override

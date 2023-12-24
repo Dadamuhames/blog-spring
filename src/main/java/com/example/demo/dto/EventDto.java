@@ -20,13 +20,13 @@ public class EventDto {
     public Long id;
 
     @JsonFieldConstraint
-    public Map<String, Object> title;
+    public Map<String, String> title;
 
     @JsonFieldConstraint
-    private Map<String, Object> subtitle;
+    private Map<String, String> subtitle;
 
     @JsonFieldConstraint
-    private Map<String, Object> description;
+    private Map<String, String> description;
 
     private Set<EventImage> images;
 }

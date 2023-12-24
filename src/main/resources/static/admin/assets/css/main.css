@@ -178,3 +178,7 @@
 .page-item {
     cursor: pointer;
 }
+
+.delete-transl > i {
+    pointer-events: none;
+}

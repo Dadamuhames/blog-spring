@@ -25,17 +25,17 @@ public class Event {
     @Column(columnDefinition = "json")
     @Convert(converter = HashMapConverter.class)
     @JsonFieldConstraint
-    private Map<String, Object> title;
+    private Map<String, String> title;
 
     @Column(columnDefinition = "json")
     @Convert(converter = HashMapConverter.class)
     @JsonFieldConstraint
-    private Map<String, Object> subtitle;
+    private Map<String, String> subtitle;
 
     @Column(columnDefinition = "json")
     @Convert(converter = HashMapConverter.class)
     @JsonFieldConstraint
-    private Map<String, Object> description;
+    private Map<String, String> description;
 
 
     @JsonIgnore

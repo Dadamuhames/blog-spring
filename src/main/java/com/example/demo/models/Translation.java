@@ -13,12 +13,12 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"group_id", "keyword"})})
 public class Translation {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
     private String keyword;
 
     @Column(columnDefinition = "json")

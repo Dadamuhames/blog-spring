@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 @Setter
 public class TranslationsWrapped {
-    private List<Translation> translations;
+    private List<TranslationDto> translations;
 }

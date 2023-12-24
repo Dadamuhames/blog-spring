@@ -57,15 +57,15 @@ async function translate(text, lang_from, lang_to) {
     let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang_from}&tl=${lang_to}&dt=t&q=${text}`
 
     let response = await fetch(url);
-    let tranlation = ""
+    let translation = ""
 
     if (response.ok) { 
         let json = await response.json();
 
-        tranlation = json[0][0][0]
+        translation = json[0][0][0]
     }
 
-    return tranlation
+    return translation
 }
 
 

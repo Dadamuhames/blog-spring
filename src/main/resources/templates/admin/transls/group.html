@@ -53,9 +53,23 @@
 
                     <div class="groups">
                         <div class="card">
+                            <!-- <p class="mb-0 ps-4 pt-3">Группы</p> -->
                             <div class="card-body">
                                 <div class="links" id="group_links">
-                                    <a th:each="group : ${groups}" th:href="@{/admin/translations/groups/{id}(id=${group.id})}" class="btn btn-info me-3 bg-transparent text-info group-link" th:text="${group.name}"></a>
+                                    <a
+                                            th:each="gr : ${groups}"
+                                            th:text="${gr.name}"
+                                            th:href="@{/admin/translations/groups/{id}(id=${gr.id})}"
+                                            th:attr="class=${gr.id == group.id ? 'btn btn-info me-3 group-link' : 'btn btn-info me-3 bg-transparent text-info group-link'}">
+                                    </a>
+                                </div>
+                                <div class="row" style="width: 300px;">
+                                    <div class="col-6">
+                                        <a th:href="@{/admin/translations/groups/{id}/edit(id=${group.id})}" class="d-flex p-1 mt-4"
+                                           style="width: max-content;text-decoration: underline;"><i
+                                                class="fe fe-edit-2 d-flex align-items-center justify-content-center"
+                                                style="width: 20px;height:20px"></i> редактировать</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +122,7 @@
                                             <div class="input-group-text border-0 bg-transparent p-0">
                                                 <span class="fe fe-copy" style="cursor: pointer;">
                                                     <span class="text-dark transl-key"
-                                                          style="cursor: pointer; outline: none; border:none; font-family: 'Verdana'" th:text="${obj.group.subText} + '.' + ${obj.keyword}"></span>
+                                                          style="cursor: pointer; outline: none; border:none; font-family: 'Verdana'" th:text="${group.subText} + '.' + ${obj.keyword}"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -130,6 +144,7 @@
                                                th:onclick="|var result = confirm('Want to delete?');if (result){event.preventDefault();document.getElementById('delete-form${ obj.id }').submit();}|"><i
                                                     class="fe fe-trash"></i></a>
                                             <form th:action="@{/admin/translations/{id}/delete(id=${obj.id})}" th:id="delete-form + ${ obj.id }" method="post" style="display: none;">
+                                                <input type="hidden" th:name="url" th:value="@{/admin/translations/groups/{id}(id=${group.id})}" />
                                             </form>
                                         </div>
                                     </td>
@@ -137,9 +152,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="card-footer d-flex justify-content-between" th:replace="~{/admin/blocks/pagination::pagination}"></div>
-
                     </div>
                     <!-- Content End -->
                 </div>
@@ -152,14 +164,14 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabelOne" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content" id="translation-update-form" method="post">
-            {% csrf_token %}
+        <form class="modal-content" th:action="@{/admin/translations/}" id="translation-update-form" method="post">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabelOne"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="id">
+                <input type="hidden" name="obj_id">
+                <input type="hidden" name="group_id">
                 <div class="form-group">
                     <!-- Label  -->
                     <label class="form-label">
@@ -168,34 +180,27 @@
                     <br>
                     <!-- Input -->
                     <div class="input-group input-group-merge input-group-reverse mb-3">
-                        <input class="form-control" name='key' placeholder="Ключ..." type="text"
+                        <input class="form-control" name='keyword' placeholder="Ключ..." type="text"
                                aria-label="Input group reverse" aria-describedby="inputGroupReverse">
                         <div class="input-group-text" id="inputGroupReverse">
                             <span class="item-title" id="group-key-name"></span>
                         </div>
                     </div>
-                    <div class="invalid-feedback" id="transl_key_error">
+                    <div class="invalid-feedback" id="transl_key_error" style="display:block;">
 
                     </div>
                 </div>
 
-                {% for lang in langs %}
-                <div class="form-group">
+                <div class="form-group" th:each="lang : ${langs}">
                     <!-- Label  -->
-                    <label class="form-label">
-                        Значение({{ lang.code }})
-                    </label>
+                    <label class="form-label" th:text="'Значение (' + ${ lang.code } + ')'"></label>
                     <br>
                     <!-- Input -->
-                    <input type="text" name="value#{{ lang.code }}" class="form-control"
-                           placeholder="{{ lang.code }}..." required>
-                    {% if lang.default %}
-                    <div class="invalid-feedback" id="transl_lng_error">
+                    <input type="text" th:name="value[__${lang.code}__]" class="form-control"
+                           th:placeholder="${ lang.code } + '...'" th:required="${lang.isDefault()}">
 
-                    </div>
-                    {% endif %}
+                    <div class="invalid-feedback" id="transl_lng_error" style="display:block;" th:if="${lang.isDefault()}"></div>
                 </div>
-                {% endfor %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -247,10 +252,9 @@
 
 
 <div th:replace="~{/admin/blocks/scripts::scripts}"></div>
-<script th:src="@{/admin/assets/js/update_translation.js}"></script>
 <script th:src="@{/admin/assets/js/add_transl_group.js}"></script>
 <script th:src="@{/admin/assets/js/edit_translation.js}"></script>
-
+<script th:src="@{/admin/assets/js/update_translation.js}"></script>
 
 </body>
 
