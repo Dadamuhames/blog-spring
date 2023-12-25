@@ -27,4 +27,11 @@ public interface TranslationRepository extends JpaRepository<Translation, Long> 
 
     @EntityGraph(attributePaths = {"group"})
     Optional<Translation> findById(@Param("id") long id);
+
+    @Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM translation WHERE keyword = %:keyword% AND group_id = %:groupId% AND id != %:id%) THEN true ELSE false END", nativeQuery = true)
+    long existsByKeyword(@Param("keyword") String keyword, @Param("groupId") long groupId, @Param("id") long id);
+
+
+    @Query(value = "SELECT CASE WHEN EXISTS (SELECT * FROM translation WHERE keyword = %:keyword% AND group_id = %:groupId%) THEN true ELSE false END", nativeQuery = true)
+    long existsByKeyword(@Param("keyword") String keyword, @Param("groupId") long groupId);
 }

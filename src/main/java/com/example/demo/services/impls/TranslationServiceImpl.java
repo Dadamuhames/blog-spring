@@ -112,6 +112,7 @@ public class TranslationServiceImpl implements TranslationsService {
     }
 
     @Override
+    @Transactional
     public Map<Integer, Map<String, String>> validateWrapped(TranslationsWrapped translationsWrapped) {
         Map<Integer, Map<String, String>> errors = new HashMap<>();
 
@@ -119,6 +120,23 @@ public class TranslationServiceImpl implements TranslationsService {
 
         for(int i = 0; i < translations.size(); i++) {
             TranslationDto translationDto = translations.get(i);
+
+            long exists;
+
+            if(translationDto.getId() == null) {
+                exists = translationRepository.existsByKeyword(translationDto.getKeyword(),
+                        translationDto.getGroup_id());
+            } else {
+                exists = translationRepository.existsByKeyword(translationDto.getKeyword(),
+                        translationDto.getGroup_id(), translationDto.getId());
+            }
+
+            if(exists != 0) {
+                Map<String, String> error = new HashMap<>();
+                error.put("keyword", "Field should be unique");
+                errors.put(i, error);
+            }
+
             Set<ConstraintViolation<TranslationDto>> violations = validator.validate(translationDto);
 
             if(!violations.isEmpty()) {

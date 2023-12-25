@@ -2,7 +2,6 @@ package com.example.demo.dto;
 
 import com.example.demo.models.TranslationGroup;
 import com.example.demo.validators.annotations.JsonFieldConstraint;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
