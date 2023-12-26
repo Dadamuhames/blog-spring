@@ -1,17 +1,15 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru" data-bs-theme="auto">
 
-<head th:replace="/admin/blocks/header::adminHead('Events')"></head>
+<head th:replace="~{/admin/blocks/header::adminHead('Events')}"></head>
 
 <body>
 
-<nav th:replace="/admin/blocks/navbar::navbar"></nav>
+<nav th:replace="~{/admin/blocks/navbar::navbar}"></nav>
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
-  <div class="messages">
-    <div class="alert alert notifs" role="alert"></div>
-  </div>
+  <div th:replace="~{/admin/blocks/message::message}"></div>
   <div class="container-fluid">
     <div class="messages"></div>
     <div class="row justify-content-center">

@@ -73,7 +73,9 @@
                                                 <input
                                                         type="text"
                                                         class="form-control"
-                                                        th:name="title[ + ${lang.code} + ]">
+                                                        th:name="title[ + ${lang.code} + ]"
+                                                        th:field="*{title[__${lang.code}__]}"
+                                                >
 
                                                 <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('title') && lang.isDefault()}" th:errors="*{title}"></div>
                                             </div>
@@ -85,10 +87,12 @@
                                                 </label>
                                                 <br>
                                                 <!-- Input -->
-                                                <input type="text" class="form-control" th:name="subtitle[ + ${lang.code} + ]">
+                                                <input type="text" class="form-control"
+                                                       th:name="subtitle[ + ${lang.code} + ]"
+                                                       th:field="*{subtitle[__${lang.code}__]}"
+                                                >
 
                                                 <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('subtitle') && lang.isDefault()}" th:errors="*{subtitle}"></div>
-
                                             </div>
 
                                             <div class="form-group">

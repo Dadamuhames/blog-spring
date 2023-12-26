@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -67,12 +68,15 @@ public class EventAdminController {
     @PostMapping("/create")
     public String postCreateForm(@Valid @ModelAttribute("event") EventDto eventDto,
                                  BindingResult result,
-                                 HttpSession session, Model model) {
+                                 HttpSession session, Model model,
+                                 RedirectAttributes redirectAttributes) {
         if(result.hasErrors()) {
 
             List<String> images = fileGetService.getImages(session, "eventImages");
 
             model.addAttribute("requestImages", images);
+
+            model.addAttribute("event", eventDto);
 
             return "admin/events/create";
         }
@@ -80,6 +84,8 @@ public class EventAdminController {
         eventService.saveEvent(eventDto, session);
 
         session.setAttribute("eventImages", Collections.emptyList());
+
+        redirectAttributes.addFlashAttribute("success", "Success");
 
         return "redirect:/admin/events";
     }
@@ -104,7 +110,8 @@ public class EventAdminController {
     public String postEditForm(@PathVariable("id") long id,
                                @Valid @ModelAttribute("event") EventDto eventDto,
                                BindingResult result,
-                               HttpSession session, Model model) {
+                               HttpSession session, Model model,
+                               RedirectAttributes redirectAttributes) {
 
         eventDto.setId(id);
 
@@ -128,6 +135,8 @@ public class EventAdminController {
 
         eventService.saveEvent(eventDto, session);
         session.setAttribute("eventImages", Collections.emptyList());
+
+        redirectAttributes.addFlashAttribute("success", "Success");
 
         return "redirect:/admin/events";
     }
@@ -154,6 +163,4 @@ public class EventAdminController {
 
         return "redirect:/admin/events";
     }
-
-
 }
