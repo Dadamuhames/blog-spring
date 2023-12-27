@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.apiDtos;
 
 import com.example.demo.models.EventImage;
 import com.example.demo.validators.annotations.JsonFieldConstraint;
@@ -6,27 +6,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
 import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDto {
-    private int index;
-
+public class EventApiDto {
     private Long id;
 
-    @JsonFieldConstraint
-    private Map<String, String> title;
+    private String title;
 
-    @JsonFieldConstraint
-    private Map<String, String> subtitle;
+    private String subtitle;
 
-    @JsonFieldConstraint
-    private Map<String, String> description;
+    private String description;
 
     private Set<EventImage> images;
 }

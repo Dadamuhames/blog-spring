@@ -1,5 +1,6 @@
 package com.example.demo.repo;
 
+import com.example.demo.dto.apiDtos.EventApiDto;
 import com.example.demo.models.Event;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
