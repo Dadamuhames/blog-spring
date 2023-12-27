@@ -1,11 +1,12 @@
 package com.example.demo.dto.apiDtos;
 
 import com.example.demo.models.EventImage;
-import com.example.demo.validators.annotations.JsonFieldConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Set;
 
 @Data

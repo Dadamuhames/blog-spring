@@ -87,6 +87,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     })
     public void saveLanguage(Language language) {
+
         if(language.isDefault()) {
             List<Language> allDefaults = languageRepository.findDefaults();
 
@@ -95,6 +96,11 @@ public class LanguageServiceImpl implements LanguageService {
             }
 
             languageRepository.saveAll(allDefaults);
+
+        }  else if(language.getId() != null) {
+            boolean isDefault = languageRepository.isDefault(language.getId());
+
+            language.setDefault(isDefault);
         }
 
         languageRepository.save(language);

@@ -1,6 +1,7 @@
 package com.example.demo.repo;
 
 import com.example.demo.models.Language;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,7 @@ public interface LanguageRepository extends JpaRepository<Language, Long> {
 
     @Query(value = "SELECT * FROM language WHERE is_default = 1", nativeQuery = true)
     List<Language> findDefaults();
+
+    @Query(value = "SELECT e.isDefault FROM Language e WHERE e.id = :id")
+    boolean isDefault(@Param("id") long id);
 }
