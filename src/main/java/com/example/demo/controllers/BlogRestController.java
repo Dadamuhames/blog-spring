@@ -8,6 +8,7 @@ import com.example.demo.services.CategoryService;
 import com.example.demo.services.EventService;
 import com.example.demo.services.OtpService;
 import com.example.demo.services.PostService;
+import com.example.demo.services.api.EventApiService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,6 @@ public class BlogRestController {
     private final PostService postService;
     private final CategoryService categoryService;
     private final OtpService otpService;
-    private final EventService eventService;
 
     @GetMapping("/posts")
     public Page<PostDto> postsList(@RequestParam String key, @RequestParam(defaultValue = "false") boolean set) {
@@ -51,19 +51,4 @@ public class BlogRestController {
 
         return categoryService.findAllByTitleContainingOrderByIdDesc("", pageable);
     }
-
-
-
-    @GetMapping("/api/events")
-    public Page<EventApiDto> translatedEvents(@RequestHeader(value = "Language", required = false) String language,
-                                              @RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "20") int pageSize,
-                                              @RequestParam(defaultValue = "") String q,
-                                              HttpServletRequest request) {
-
-        Pageable pageable = PageRequest.of(page, pageSize);
-
-        return eventService.listEvents(q, pageable, request);
-    }
-
 }

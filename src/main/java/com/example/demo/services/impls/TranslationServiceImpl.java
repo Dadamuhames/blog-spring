@@ -37,9 +37,6 @@ public class TranslationServiceImpl implements TranslationsService {
 
         int startIndex = pageable.getPageNumber() * pageable.getPageSize();
 
-        System.out.println(pageable.getPageNumber());
-        System.out.println(pageable.getPageSize());
-
         AtomicInteger index = new AtomicInteger(startIndex);
 
         return translations.map((translation) -> {
