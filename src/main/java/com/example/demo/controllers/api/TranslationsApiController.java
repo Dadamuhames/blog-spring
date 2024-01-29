@@ -20,7 +20,7 @@ public class TranslationsApiController {
     private final TranslationsLocaleMapper translationsLocaleMapper;
 
     @GetMapping({"", "/"})
-    public Map<String, String> all(HttpServletRequest request) {
+    public Map<Object, Object> all(HttpServletRequest request) {
         List<Translation> translations = translationRepository.findAll();
 
         return translationsLocaleMapper.mapAllToLocalized(translations, request);

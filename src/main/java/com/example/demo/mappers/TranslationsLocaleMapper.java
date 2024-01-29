@@ -14,12 +14,12 @@ import java.util.Map;
 public class TranslationsLocaleMapper {
     private final LocaleMapper localeMapper;
 
-    public Map<String, String> mapAllToLocalized(List<Translation> translations, HttpServletRequest request) {
-        Map<String, String> result = new HashMap<>();
+    public Map<Object, Object> mapAllToLocalized(List<Translation> translations, HttpServletRequest request) {
+        Map<Object, Object> result = new HashMap<>();
 
         for(Translation translation : translations) {
             String key = translation.getKeyword() + "." + translation.getGroup().getSubText();
-            String value = localeMapper.map(translation.getValue(), request);
+            Object value = localeMapper.map(translation.getValue(), request);
             result.put(key, value);
         }
 

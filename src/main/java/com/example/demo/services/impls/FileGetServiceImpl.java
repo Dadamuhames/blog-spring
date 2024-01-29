@@ -1,8 +1,10 @@
 package com.example.demo.services.impls;
 
 import com.example.demo.services.FileGetService;
+import com.example.demo.services.FileThumbnailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,10 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class FileGetServiceImpl implements FileGetService {
+    private final FileThumbnailService fileThumbnailService;
+
     @Override
     public String getShowUrl(HttpServletRequest request, String filePath) {
         filePath = getCorrectFilePath(filePath);
@@ -52,41 +57,6 @@ public class FileGetServiceImpl implements FileGetService {
     }
 
     @Override
-    public String getThumbFilePath(String filePath, String size) {
-        String fileExt = "." + FilenameUtils.getExtension(filePath);
-        String fileAbsolutePath = new File(filePath).getAbsolutePath().replace(fileExt, "");
-
-        return String.format("%s.%s.png", fileAbsolutePath, size);
-    }
-
-    @Override
-    public String getThumbnailImage(String filePath, int width, int height) {
-        String thumbFilePath = getThumbFilePath(filePath, String.format("%dx%d", width, height));
-
-        boolean fileExists = new File(thumbFilePath).exists();
-
-        if(!fileExists) {
-            thumbFilePath = generateThumbnailImage(filePath, width, height);
-        }
-
-        return thumbFilePath == null ? "" : thumbFilePath;
-    }
-
-    @Override
-    public String generateThumbnailImage(String filePath, int width, int height) {
-        String thumbFilePath = getThumbFilePath(filePath, String.format("%dx%d", width, height));
-
-        try {
-            Thumbnails.of(filePath).size(width, height).outputFormat("png").toFile(thumbFilePath);
-        } catch (Exception e) {
-            thumbFilePath = null;
-        }
-
-        return thumbFilePath;
-    }
-
-
-    @Override
     public String getCorrectFilePath(String path) {
         String[] pathSplit = path.split("uploads/");
 
@@ -98,7 +68,7 @@ public class FileGetServiceImpl implements FileGetService {
     public String getPhotoUrlShow(String photoUrl, HttpServletRequest request, int width, int height) {
         if(photoUrl == null || photoUrl.isEmpty()) { return "/admin/src/img/default.png"; }
 
-        String fileThumbUrl = getThumbnailImage(photoUrl, width, height);
+        String fileThumbUrl = fileThumbnailService.getThumbnailImage(photoUrl, width, height);
 
         if(fileThumbUrl == null || fileThumbUrl.isEmpty()) {
             fileThumbUrl = "/admin/src/img/default.png";

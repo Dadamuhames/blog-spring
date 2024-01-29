@@ -24,7 +24,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
-    private final ServletContext context;
     private final FileGetService fileGetService;
 
     @Override
@@ -47,7 +46,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public String saveFile(MultipartFile file) throws IOException {
-        String savedFilePath = null;
+        String savedFilePath;
 
         try {
             byte[] fileBytes = file.getBytes();

@@ -12,12 +12,6 @@ public interface FileGetService {
 
     public List<String> getImages(HttpSession session, String fileKey);
 
-    public String getThumbFilePath(String filePath, String size);
-
-    public String getThumbnailImage(String filePath, int width, int height);
-
-    public String generateThumbnailImage(String filePath, int width, int height);
-
     public String getCorrectFilePath(String path);
 
     public String getPhotoUrlShow(String photoUrl, HttpServletRequest request, int width, int height);
