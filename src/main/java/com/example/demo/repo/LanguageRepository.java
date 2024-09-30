@@ -26,4 +26,6 @@ public interface LanguageRepository extends JpaRepository<Language, Long> {
 
     @Query(value = "SELECT e.isDefault FROM Language e WHERE e.id = :id")
     boolean isDefault(@Param("id") long id);
+
+    boolean existsByCode(String code);
 }

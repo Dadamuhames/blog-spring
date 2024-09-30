@@ -1,9 +1,7 @@
 package com.example.demo.repo;
 
-import com.example.demo.dto.apiDtos.EventApiDto;
 import com.example.demo.models.Event;
 import io.lettuce.core.dynamic.annotation.Param;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

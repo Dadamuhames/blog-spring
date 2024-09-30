@@ -151,6 +151,7 @@ public class PostAdminController {
         try {
             postService.deletePostImage(id);
         } catch (Exception e) {
+            System.out.println("!!!" + e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
